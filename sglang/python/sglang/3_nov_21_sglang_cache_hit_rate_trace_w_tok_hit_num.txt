@@ -1,0 +1,9 @@
+counter = 2 hit numbers = 0 hit rate= 0.0
+counter = 3 hit numbers = 1 hit rate= 0.3125
+counter = 4 hit numbers = 19 hit rate= 0.2616431187859759
+counter = 5 hit numbers = 316 hit rate= 4.002859185132238
+counter = 6 hit numbers = 7422 hit rate= 33.17369366287523
+counter = 7 hit numbers = 953 hit rate= 35.10235332043843
+counter = 8 hit numbers = 14890 hit rate= 50.16792789728763
+counter = 9 hit numbers = 1188 hit rate= 50.86696899431596
+counter = 10 hit numbers = 22573 hit rate= 60.44926611359285
