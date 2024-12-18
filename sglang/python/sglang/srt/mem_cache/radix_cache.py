@@ -216,10 +216,10 @@ class RadixCache(BasePrefixCache):
         # f.write(f'evict called for {self.call_counter} timese, evict target = {num_tokens} tokens\t')
         
         print(f'evict called for {self.call_counter} timese, evict target = {num_tokens} tokens\t', flush=True)
-        item_to_check_tensor = []
+        # item_to_check_tensor = []
         
-        for i in wait_tensor:
-            item_to_check_tensor.append(torch.tensor(i.input_ids, dtype=torch.int32))
+        # for i in wait_tensor:
+        #     item_to_check_tensor.append(torch.tensor(i.input_ids, dtype=torch.int32))
 
         if self.disable:
             return
@@ -229,45 +229,45 @@ class RadixCache(BasePrefixCache):
         print(f'tree size = = {len(leaves)}',flush = True)
         num_evicted = 0
         
-        # while num_evicted < num_tokens and len(leaves):
-        #     x = heapq.heappop(leaves)
+        while num_evicted < num_tokens and len(leaves):
+            x = heapq.heappop(leaves)
 
-        #     if x == self.root_node:
-        #         break
-        #     if x.lock_ref > 0:
-        #         continue
+            if x == self.root_node:
+                break
+            if x.lock_ref > 0:
+                continue
 
-        #     if x not in wait_tensor:
-        #         evict_callback(x.value)
-        #         f.write(f'\n evicted {len(x.value)} tokens \n')
-        #         num_evicted += len(x.value)
-        #         self._delete_leaf(x)
-                    
-        #         if len(x.parent.children) == 0:
-        #             heapq.heappush(leaves, x.parent)    
-        
-        for x in leaves:
-            #print(f'token length = {len(x.value)}')
-            #print(f'length = {len(item_to_check_tensor)}')
-
-            if x not in item_to_check_tensor:
-                # print("Entering main evict")
-                if x == self.root_node:
-                    # print("break from here 1")
-                    break
-                if x.lock_ref > 0:
-                    #print("second if")
-                    continue
-
+            if x not in wait_tensor:
                 evict_callback(x.value)
                 # f.write(f'\n evicted {len(x.value)} tokens \n')
                 num_evicted += len(x.value)
                 self._delete_leaf(x)
+                    
                 if len(x.parent.children) == 0:
-                    leaves.append(x.parent)
-                if num_evicted >= num_tokens:
-                    # print("break from here 2")
-                    break
+                    heapq.heappush(leaves, x.parent)    
+        
+        # for x in leaves:
+        #     #print(f'token length = {len(x.value)}')
+        #     #print(f'length = {len(item_to_check_tensor)}')
+
+        #     if x not in item_to_check_tensor:
+        #         # print("Entering main evict")
+        #         if x == self.root_node:
+        #             # print("break from here 1")
+        #             break
+        #         if x.lock_ref > 0:
+        #             #print("second if")
+        #             continue
+
+        #         evict_callback(x.value)
+        #         # f.write(f'\n evicted {len(x.value)} tokens \n')
+        #         num_evicted += len(x.value)
+        #         self._delete_leaf(x)
+        #         if len(x.parent.children) == 0:
+        #             leaves.append(x.parent)
+        #         if num_evicted >= num_tokens:
+        #             # print("break from here 2")
+        #             break
             else:
                 print("here x is found in the item to check", flush = True)
                 continue

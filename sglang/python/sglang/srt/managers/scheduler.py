@@ -269,44 +269,45 @@ class Scheduler:
     def recv_requests(self):
         if self.tp_rank == 0:
             recv_reqs = []
-            self.indicator = 0
+            #self.indicator = 0
             while True:
                 
                 try:
                     
                     recv_req = self.recv_from_tokenizer.recv_pyobj(zmq.NOBLOCK)
-                    # # print(f'from zmq')
-                    # # print("Check1")
-                    # # print(recv_req)
+                    # print(f'from zmq')
+                    # print("Check1")
+                    # print(recv_req)
                     
-                    # # sents = open("recv_req_list.txt").read().split("\n")
-                    # # print("Check2")
-                    # # print(sents[i])
-                    # # recv_req = sents[i]
-                    # # val = random.randint(0,10)
-                    # if self.tree_cache.flag == True: # and val > 5:
-                    #     # index = random.randint(0,len(self.recv_reqs_list)-1)
-                    #     # print(f'size = {size}')
-                    #     recv_req = self.recv_reqs_list[self.indicator]
-                    #     # print(f'from file')
-                    #     # print(f'recv_req_list size = {len(self.recv_reqs_list)}, indicator(index) = {self.indicator} ')
-                    #     self.indicator = self.indicator + 1
-                    #     if self.indicator == len(self.recv_reqs_list):
-                    #         self.indicator = 0
-                    # else:
-                    #     self.recv_reqs_list.append(recv_req)
-                    #     # print(f'from zmq')
-                    #     # temp_req = random.sample(recv_reqs_list,k=1)
-                    #     # print(temp_req.items())
+                    # sents = open("recv_req_list.txt").read().split("\n")
+                    # print("Check2")
+                    # print(sents[i])
+                    # recv_req = sents[i]
+                    # val = random.randint(0,10)
+                    if self.tree_cache.flag == True: # and val > 5:
+                        # index = random.randint(0,len(self.recv_reqs_list)-1)
+                        # print(f'size = {size}')
+                        recv_req = self.recv_reqs_list[self.indicator]
+                        # print(f'from file')
+                        print(f'recv_req_list size = {len(self.recv_reqs_list)}, indicator(index) = {self.indicator} ')
+                        self.indicator = self.indicator + 1
+                        if self.indicator == len(self.recv_reqs_list):
+                            print("Here indicator becomes 0")
+                            self.indicator = 0
+                    else:
+                        self.recv_reqs_list.append(recv_req)
+                        # print(f'from zmq')
+                        # temp_req = random.sample(recv_reqs_list,k=1)
+                        # print(temp_req.items())
                         
                         
                         
-                    # # recv_req = self.recv_from_tokenizer.recv_pyobj(zmq.NOBLOCK)
-                    # # f = open("recv_req_list.txt", "a")
-                    # # f.write(f'{recv_req}\n')
-                    # # f.close()
-                    # # size = len(self.recv_reqs_list)
-                    # # print(f'size = {size}')
+                    # recv_req = self.recv_from_tokenizer.recv_pyobj(zmq.NOBLOCK)
+                    # f = open("recv_req_list.txt", "a")
+                    # f.write(f'{recv_req}\n')
+                    # f.close()
+                    # size = len(self.recv_reqs_list)
+                    # print(f'size = {size}')
                 except zmq.ZMQError:
                     break
                 recv_reqs.append(recv_req)
@@ -606,7 +607,7 @@ class Scheduler:
                 )
                 self.it_counter = self.it_counter+1
                 # f = open("3_nov_21_sglang_cache_hit_rate_trace_w_tok_hit_num.txt", "a")
-                # # f = open("3_nov_21_lookahead_cache_hit_rate_trace_w_tok_hit_num.txt", "a")
+                # f = open("3_nov_21_lookahead_cache_hit_rate_trace_w_tok_hit_num.txt", "a")
                 # f.write(f'counter = {self.it_counter} hit numbers = {int(adder.log_hit_tokens)} hit rate= {100*tree_cache_hit_rate}\n')
                 # f.close()
             else:
